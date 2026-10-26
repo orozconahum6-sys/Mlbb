@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101020">
+  <meta name="description" content="Tracker de ahorro MLBB para skins Legend, Aspirantes y colaboraciones.">
+  <title>MLBB Vault — Tracker de skins</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="MLBB Vault inicio">
+        <span class="brand-mark">M</span>
+        <span><b>MLBB <em>VAULT</em></b><small>DIAMOND PLANNER</small></span>
+      </a>
+      <div class="top-actions">
+        <span class="save-state" id="saveState"><i></i> Guardado local</span>
+        <button class="icon-btn" id="installBtn" hidden title="Instalar aplicación">⇩ <span>Instalar</span></button>
+        <button class="icon-btn" id="settingsBtn" title="Ajustes globales">⚙</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse"></span> TU ECONOMÍA, TUS OBJETIVOS</div>
+        <h1>Tu próxima skin.<br><span>Planeada al milímetro.</span></h1>
+        <p>Un fondo compartido de diamantes y pases alimenta los tres planes. Ajusta los datos una vez y todos se recalculan.</p>
+        <div class="hero-tags"><span>◆ Datos locales</span><span>✦ Instalable</span><span>⌁ GitHub Pages</span></div>
+      </div>
+      <div class="hero-orb" aria-hidden="true"><div class="orb-ring"></div><div class="orb-core">✦</div><span class="orb-caption">SAVE FOR<br>THE LEGEND</span></div>
+    </section>
+
+    <section class="global-panel" aria-label="Resumen global compartido">
+      <div class="section-heading">
+        <div><span class="eyebrow">BILLETERA GLOBAL</span><h2>Tu fondo compartido</h2></div>
+        <span class="shared-pill">↗ Sincronizado entre pestañas</span>
+      </div>
+      <div class="wallet-grid">
+        <label class="wallet-card primary-card">
+          <span class="field-label">Diamantes disponibles</span>
+          <span class="input-wrap"><span class="gem">◆</span><input id="diamonds" type="number" min="0" step="1" value="128" inputmode="numeric"></span>
+          <small>Saldo actual en tu cuenta</small>
+        </label>
+        <label class="wallet-card">
+          <span class="field-label">Pases semanales activos / comprados</span>
+          <span class="input-wrap"><span class="ticket">▰</span><input id="passes" type="number" min="0" step="1" value="1" inputmode="numeric"></span>
+          <small>Un pase entrega 220 diamantes en 7 días</small>
+        </label>
+        <label class="wallet-card">
+          <span class="field-label">Días restantes del pase activo</span>
+          <span class="input-wrap"><span class="clock">◷</span><input id="passDays" type="number" min="0" max="7" step="1" value="5" inputmode="numeric"></span>
+          <small id="pendingPreview">Hasta 100 diamantes pendientes (estimación)</small>
+        </label>
+        <label class="wallet-card">
+          <span class="field-label">Precio por pase (USD)</span>
+          <span class="input-wrap"><span class="currency">$</span><input id="passPrice" type="number" min="0" step="0.01" value="2.06" inputmode="decimal"></span>
+          <small>Según el precio mostrado en tu tienda</small>
+        </label>
+      </div>
+      <div class="wallet-footer">
+        <div><span class="muted">Diamantes + recompensa pendiente estimada</span><strong id="effectiveDiamonds">228 <small>diamantes</small></strong></div>
+        <div><span class="muted">Valor del saldo de pases nuevos</span><strong id="passValue">$2.06 <small>/ pase</small></strong></div>
+        <button class="subtle-btn" id="resetBtn">Restablecer valores</button>
+      </div>
+      <div class="priority-panel">
+        <div class="priority-copy">
+          <span class="eyebrow">PLAN DE AHORRO ACTIVO</span>
+          <h3>Un solo objetivo prioritario</h3>
+          <p>El fondo global se asigna al objetivo que elijas. Las otras dos pestañas muestran su déficit sin volver a contar esos mismos diamantes.</p>
+        </div>
+        <label class="priority-select-wrap">
+          <span>Ahorrar primero para</span>
+          <select id="priorityGoal">
+            <option value="legend">Legend futura</option>
+            <option value="aspirants">Aspirantes (patrón de 6)</option>
+            <option value="collab">Jujutsu Kaisen</option>
+          </select>
+        </label>
+        <div class="priority-summary">
+          <span class="muted">Fondo asignado al objetivo prioritario</span>
+          <strong id="prioritySummary">228 diamantes</strong>
+          <small id="prioritySummaryNote">El fondo se contabiliza una sola vez.</small>
+        </div>
+      </div>
+      <p class="fineprint">Los pases activos no se convierten en diamantes de inmediato. La recompensa pendiente es una estimación para planificar; ajusta los días según lo que realmente te falte por reclamar. Solo el objetivo prioritario descuenta tu fondo global; las otras pestañas no duplican esos diamantes.</p>
+    </section>
+
+    <nav class="tabs" role="tablist" aria-label="Objetivos de skins">
+      <button class="tab active" role="tab" aria-selected="true" data-tab="legend"><span class="tab-icon gold">✦</span><span><b>Legend futura</b><small>Evento de skin Legend</small></span></button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="aspirants"><span class="tab-icon violet">✧</span><span><b>Aspirantes</b><small>Patrón objetivo de 6</small></span></button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="collab"><span class="tab-icon red">呪</span><span><b>Colaboración</b><small>Jujutsu Kaisen</small></span></button>
+    </nav>
+
+    <main>
+      <section class="tab-panel active" id="panel-legend" role="tabpanel">
+        <div class="panel-title-row"><div><span class="eyebrow gold-text">OBJETIVO 01 / EVENTO LEGEND</span><h2>La próxima Legend</h2><p>Planifica un evento de intercambio de fichas como Fanny o Alpha. La meta es editable y se comparte solo el fondo global.</p></div><div class="event-badge gold-badge">✦ LEGEND</div></div>
+        <div class="content-grid">
+          <div class="control-card">
+            <h3>Parámetros del evento</h3>
+            <label class="form-field"><span>Meta de diamantes estimada</span><div class="field-suffix"><input id="legendGoal" type="number" min="0" step="100" value="8000"><span>💎</span></div></label>
+            <label class="form-field"><span>Boletos / fichas gratis estimados</span><div class="field-suffix"><input id="legendFree" type="number" min="0" value="0"><span>fichas</span></div></label>
+            <label class="form-field"><span>Diamantes equivalentes por ficha (estimación)</span><div class="field-suffix"><input id="legendRate" type="number" min="1" value="1"><span>💎/ficha</span></div></label>
+            <label class="form-field"><span>Fecha objetivo (opcional)</span><input id="legendDate" type="date"></label>
+            <div class="note-box"><b>Nota:</b> los eventos Legend cambian sus precios, descuentos y recompensas. Usa la meta como presupuesto provisional y actualízala cuando se anuncien las reglas oficiales.</div>
+          </div>
+          <div class="result-card legend-result">
+            <span class="result-kicker">TU PROYECCIÓN</span><div class="result-number" id="legendPercent">3%</div><div class="progress-track"><span id="legendProgress"></span></div>
+            <div class="result-main"><span>Diamantes que faltan</span><strong id="legendMissing">7,772</strong></div>
+            <div class="result-main"><span>Pases equivalentes necesarios</span><strong id="legendPasses">36</strong></div>
+            <div class="result-main"><span>Coste adicional estimado</span><strong id="legendCost">$74.16</strong></div>
+            <div class="result-main"><span>Tiempo a 1 pase/semana</span><strong id="legendTime">36 semanas</strong></div>
+            <div class="result-foot" id="legendStatus">Sigue ahorrando: cada pase aporta 220 diamantes a lo largo de 7 días.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="panel-aspirants" role="tabpanel" hidden>
+        <div class="panel-title-row"><div><span class="eyebrow violet-text">OBJETIVO 02 / ASPIRANTS</span><h2>Predicción de patrón</h2><p>Tracker para preparar el evento Aspirantes y probar una ruta de patrón de 6. No predice resultados reales ni garantiza una combinación.</p></div><div class="event-badge violet-badge">✧ PATTERN LAB</div></div>
+        <div class="content-grid">
+          <div class="control-card">
+            <h3>Configuración del sorteo</h3>
+            <label class="form-field"><span>Meta de tiradas totales</span><div class="field-suffix"><input id="aspGoal" type="number" min="1" value="60"><span>tiradas</span></div></label>
+            <label class="form-field"><span>Tiradas ya realizadas</span><div class="field-suffix"><input id="aspDone" type="number" min="0" value="40"><span>tiradas</span></div></label>
+            <label class="form-field"><span>Coste medio por tirada</span><div class="field-suffix"><input id="aspCost" type="number" min="0" value="50"><span>💎</span></div></label>
+            <label class="form-field"><span>Tickets / tiradas gratuitas restantes</span><div class="field-suffix"><input id="aspFree" type="number" min="0" value="20"><span>tiradas</span></div></label>
+            <div class="pattern-box"><span class="field-label">Tu patrón previsto</span><div class="pattern-sequence" aria-label="Patrón 2 3 1 1 2 3"><span>2</span><span>3</span><span>1</span><span>1</span><span class="next">6</span></div><p>Objetivo de análisis: encontrar coincidencias de 6 dígitos en patrones compartidos por la comunidad. Registra los resultados reales abajo.</p></div>
+            <label class="form-field"><span>Resultados reales (separados por guiones)</span><input id="aspPattern" type="text" value="2-3-1-1" placeholder="Ej. 2-3-1-1-6"></label>
+          </div>
+          <div class="result-card violet-result">
+            <span class="result-kicker">PROYECCIÓN ASPIRANTS</span><div class="result-number" id="aspPercent">67%</div><div class="progress-track"><span id="aspProgress"></span></div>
+            <div class="result-main"><span>Tiradas pendientes tras tickets</span><strong id="aspRemaining">0</strong></div>
+            <div class="result-main"><span>Diamantes necesarios</span><strong id="aspDiamonds">0</strong></div>
+            <div class="result-main"><span>Déficit después del fondo global</span><strong id="aspMissing">0</strong></div>
+            <div class="result-main"><span>Pases equivalentes para cubrirlo</span><strong id="aspPasses">0</strong></div>
+            <div class="result-foot" id="aspStatus">El coste por tirada es editable: ajústalo a las reglas del evento activo.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="panel-collab" role="tabpanel" hidden>
+        <div class="panel-title-row"><div><span class="eyebrow red-text">OBJETIVO 03 / COLABORACIÓN</span><h2>Jujutsu Kaisen</h2><p>Un plan independiente para una colaboración tipo JJK. Ajusta la meta al héroe, skin o tienda de intercambio que vuelva al juego.</p></div><div class="event-badge red-badge">呪術廻戦</div></div>
+        <div class="content-grid">
+          <div class="control-card">
+            <h3>Parámetros de colaboración</h3>
+            <label class="form-field"><span>Meta de diamantes del evento</span><div class="field-suffix"><input id="collabGoal" type="number" min="0" step="100" value="9000"><span>💎</span></div></label>
+            <label class="form-field"><span>Boletos / tiradas gratis estimados</span><div class="field-suffix"><input id="collabFree" type="number" min="0" value="10"><span>tiradas</span></div></label>
+            <label class="form-field"><span>Coste medio por tirada</span><div class="field-suffix"><input id="collabRate" type="number" min="0" value="50"><span>💎</span></div></label>
+            <label class="form-field"><span>Fecha objetivo (opcional)</span><input id="collabDate" type="date"></label>
+            <div class="note-box red-note"><b>Importante:</b> los retornos de colaboración no siempre repiten las mismas reglas. Esta pestaña es una calculadora editable, no una afirmación de que Jujutsu Kaisen tenga una fecha de regreso confirmada.</div>
+          </div>
+          <div class="result-card red-result">
+            <span class="result-kicker">TU PROYECCIÓN</span><div class="result-number" id="collabPercent">1%</div><div class="progress-track"><span id="collabProgress"></span></div>
+            <div class="result-main"><span>Diamantes necesarios tras tickets</span><strong id="collabCost">8,500</strong></div>
+            <div class="result-main"><span>Déficit después del fondo global</span><strong id="collabMissing">8,272</strong></div>
+            <div class="result-main"><span>Pases equivalentes necesarios</span><strong id="collabPasses">38</strong></div>
+            <div class="result-main"><span>Coste adicional estimado</span><strong id="collabMoney">$78.28</strong></div>
+            <div class="result-foot" id="collabStatus">Actualiza las condiciones cuando se publique el evento oficial.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="bottom-note"><span class="note-icon">✦</span><div><b>Un mismo fondo, tres escenarios.</b><p>Las pestañas comparten tu saldo global, pero sus presupuestos son independientes. No sumes las tres metas como si fueran simultáneas: elige una prioridad o define cuánto quieres reservar para cada evento.</p></div></section>
+    <footer><span>MLBB VAULT · Fan-made tracker, no afiliado a Moonton.</span><span>Los datos se guardan en este dispositivo.</span></footer>
+  </div>
+
+  <dialog id="settingsDialog">
+    <form method="dialog" class="dialog-card">
+      <div class="dialog-heading"><div><span class="eyebrow">PREFERENCIAS</span><h2>Datos globales</h2></div><button class="icon-btn" aria-label="Cerrar">✕</button></div>
+      <p>Estos valores se usan en las tres calculadoras. Cambia los números de arriba para que todos los objetivos se actualicen automáticamente.</p>
+      <div class="note-box">Importante: el tracker no inicia sesión en tu cuenta, no realiza compras y no puede verificar automáticamente las recompensas del juego.</div>
+      <button class="primary-btn">Entendido</button>
+    </form>
+  </dialog>
+  <script src="./app.js"></script>
+</body>
+</html>

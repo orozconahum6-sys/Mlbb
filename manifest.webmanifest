@@ -1,0 +1,19 @@
+{
+  "name": "MLBB Vault — Skin Tracker",
+  "short_name": "MLBB Vault",
+  "description": "Tracker de ahorro para skins Legend, Aspirantes y colaboraciones de MLBB.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0b0b14",
+  "theme_color": "#101020",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
