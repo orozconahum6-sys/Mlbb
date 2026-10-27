@@ -46,14 +46,14 @@
           <small>Saldo actual en tu cuenta</small>
         </label>
         <label class="wallet-card">
-          <span class="field-label">Pases semanales activos / comprados</span>
+          <span class="field-label">Pases semanales registrados</span>
           <span class="input-wrap"><span class="ticket">▰</span><input id="passes" type="number" min="0" step="1" value="1" inputmode="numeric"></span>
-          <small>Un pase entrega 220 diamantes en 7 días</small>
+          <small>Historial orientativo; el ciclo se gestiona abajo</small>
         </label>
         <label class="wallet-card">
-          <span class="field-label">Días restantes del pase activo</span>
+          <span class="field-label">Días de reclamo restantes</span>
           <span class="input-wrap"><span class="clock">◷</span><input id="passDays" type="number" min="0" max="7" step="1" value="5" inputmode="numeric"></span>
-          <small id="pendingPreview">Hasta 100 diamantes pendientes (estimación)</small>
+          <small id="pendingPreview">Calculando recompensas pendientes…</small>
         </label>
         <label class="wallet-card">
           <span class="field-label">Precio por pase (USD)</span>
@@ -66,6 +66,12 @@
         <div><span class="muted">Valor del saldo de pases nuevos</span><strong id="passValue">$2.06 <small>/ pase</small></strong></div>
         <button class="subtle-btn" id="resetBtn">Restablecer valores</button>
       </div>
+      <section class="pass-engine" aria-label="Automatización del pase semanal">
+        <div class="pass-engine-head"><div><span class="eyebrow">CICLO AUTOMÁTICO</span><h3>Control de pases semanales</h3><p>La app avanza el contador con el tiempo real aunque esté cerrada.</p></div><span class="live-chip"><i></i> <span id="cycleStatus">Ciclo activo</span></span></div>
+        <div class="cycle-stats"><div><small>Próximo reclamo estimado</small><strong id="nextClaimLabel">—</strong></div><div><small>Reclamos pendientes</small><strong id="claimsLeftLabel">—</strong></div><div><small>Bonos inmediatos acumulados</small><strong id="instantBonusLabel">0 💎</strong></div></div>
+        <div class="pass-actions"><button class="primary-btn" id="registerPassBtn" type="button">＋ Registrar compra de pase</button><button class="subtle-btn" id="syncClockBtn" type="button">Actualizar reloj</button></div>
+        <p class="fineprint">Regla aplicada: cada pase añade 80 diamantes inmediatos y 7 días al ciclo. Si compras con el ciclo activo, no se duplica el reclamo diario. Si compras con el contador en cero, se suman 80 por pase y 20 del día una sola vez.</p>
+      </section>
       <div class="priority-panel">
         <div class="priority-copy">
           <span class="eyebrow">PLAN DE AHORRO ACTIVO</span>
